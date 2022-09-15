@@ -59,7 +59,7 @@ describe('mongoTestModel', () => {
     it("Caso de sucesso", async () => {
       const findByIdStub = sinon.stub(Model, 'findById').resolves(testMockWithId)
 
-      const response = await mongoModel.readOne(testMockWithId._id)
+      const response = await mongoModel.readOne(testMockId)
 
       expect(findByIdStub.calledWith()).to.be.true
       expect(response).to.deep.equal(testMockWithId)
@@ -79,5 +79,20 @@ describe('mongoTestModel', () => {
     })
   })
 
+  describe("Atualização de um documento pelo ID", async () => {
+    it("Caso de sucesso", async () => {
+      const updateStub = sinon.stub(Model, 'findByIdAndUpdate').resolves(testMockWithId)
+  
+      const checkIdStub = sinon.stub(MongoModel, 'checkId').returns(true)
+  
+      const response = await mongoModel.update(testMockId , testMock)
+  
+      expect(checkIdStub.calledWith(testMockId)).to.be.true
+  
+      expect(updateStub.calledWith(testMockWithId._id, testMock)).to.be.true
+      expect(response).to.deep.equal(testMockWithId)
+    })
+  
+  })
 
 });
