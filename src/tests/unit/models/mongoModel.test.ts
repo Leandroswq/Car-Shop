@@ -2,7 +2,8 @@ import * as sinon from 'sinon';
 import chai from 'chai';
 import { Model } from 'mongoose';
 import MongoTesteModel from './mongoTesteModel';
-import { testMock, testMockWithId } from '../../mocks/mongoTestModelMocks';
+import { testMock, testMockId, testMockWithId } from '../../mocks/mongoTestModelMocks';
+import MongoModel from '../../../models/mongoModel';
 
 const { expect } = chai;
 
@@ -12,6 +13,24 @@ describe('mongoTestModel', () => {
 
   afterEach(() => {
     sinon.restore();
+  })
+
+  describe("Validação do id", () => {
+    it("Caso o id seja valido retorna true", () => {
+      const response = MongoTesteModel.checkId(testMockId)
+
+      expect(response).to.be.true
+    })
+
+    it("Caso o id seja invalido lança um erro do tipo 'InvalidMongoId'", async () => {
+      try {
+        const response = MongoTesteModel.checkId('s')
+        expect.fail("O erro não foi lançado corretamente")
+      } catch ({message}) {
+
+        expect(message).to.equal('InvalidMongoId')
+      }
+    })
   })
 
   describe("Criação de um documento", () => {
