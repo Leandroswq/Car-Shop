@@ -25,7 +25,7 @@ describe('mongoTestModel', () => {
     })
   })
 
-  describe("Leitura dos documentos", async () => {
+  describe("Busca de todos os documentos", async () => {
     it("Caso de sucesso", async () => {
       const findStub = sinon.stub(Model, 'find').resolves([testMockWithId])
 
@@ -36,5 +36,16 @@ describe('mongoTestModel', () => {
     })
   })
 
+  describe("Busca de um documento pelo ID", async () => {
+    it("Caso de sucesso", async () => {
+      const findByIdStub = sinon.stub(Model, 'findById').resolves(testMockWithId)
+
+      const response = await mongoModel.readOne(testMockWithId._id)
+
+      expect(findByIdStub.calledWith()).to.be.true
+      expect(response).to.deep.equal(testMockWithId)
+    })
+  })
+  
 
 });
