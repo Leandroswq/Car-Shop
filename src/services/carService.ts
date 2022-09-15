@@ -1,22 +1,9 @@
-import { CarZodSchema, ICar } from '../interfaces/ICar';
-import { IModel } from '../interfaces/IModel';
-import { IServiceCreate } from '../interfaces/IService';
+import { CarUpdateZodSchema, CarZodSchema, ICar, ICarUpdate } from '../interfaces/ICar';
+import MongoModel from '../models/mongoModel';
+import CrudService from './crudService';
 
-export default class CarService implements IServiceCreate<ICar> {
-  protected _model: IModel<ICar>;
-
-  constructor(model: IModel<ICar>) {
-    this._model = model;
-  }
-
-  create(obj: ICar): Promise<ICar> {
-    const parsed = CarZodSchema.safeParse(obj);
-    if (!parsed.success) {
-      throw parsed.error;
-    }
-
-    const response = this._model.create(obj);
-
-    return response;
+export default class CarService extends CrudService<ICar, ICarUpdate> {
+  constructor(model: MongoModel<ICar>) {
+    super(model, CarZodSchema, CarUpdateZodSchema);
   }
 }
