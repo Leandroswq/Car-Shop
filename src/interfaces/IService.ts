@@ -14,11 +14,11 @@ export interface IServiceUpdate<T>{
   update(_id: string, obj: T): Promise<T>
 }
 
-export interface IServiceDelete<T>{
-  delete(_id: string, obj: T): void
+export interface IServiceDelete{
+  delete(_id: string): void
 }
 
 export interface IServiceCrud<T> extends IServiceCreate<T>, IServiceRead<T>,
-  IServiceReadOne<T>, IServiceUpdate<T>, IServiceDelete<T>{
+  IServiceReadOne<T>, IServiceUpdate<T>, IServiceDelete{
   
 }
