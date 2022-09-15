@@ -45,7 +45,20 @@ describe('mongoTestModel', () => {
       expect(findByIdStub.calledWith()).to.be.true
       expect(response).to.deep.equal(testMockWithId)
     })
+
+    it("Caso um id incompatível seja passado", async () => {
+      const findByIdStub = sinon.stub(Model, 'findById').resolves(testMockWithId)
+
+      try {
+        const response = await mongoModel.readOne('dd')
+        expect.fail("O erro não foi lançado corretamente")
+      } catch ({message}) {
+
+        expect(message).to.equal('InvalidMongoId')
+        expect(findByIdStub.called).to.be.false
+      }
+    })
   })
-  
+
 
 });
