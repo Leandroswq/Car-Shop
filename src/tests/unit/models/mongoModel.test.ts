@@ -61,7 +61,7 @@ describe('mongoTestModel', () => {
       const checkIdStub = sinon.stub(MongoModel, 'checkId').returns(true)
 
       const response = await mongoModel.readOne(testMockId)
-      
+
       expect(checkIdStub.calledWith(testMockId)).to.be.true
 
       expect(findByIdStub.calledWith()).to.be.true
@@ -79,10 +79,26 @@ describe('mongoTestModel', () => {
   
       expect(checkIdStub.calledWith(testMockId)).to.be.true
   
-      expect(updateStub.calledWith(testMockWithId._id, testMock)).to.be.true
+      expect(updateStub.calledWith(testMockId, testMock)).to.be.true
       expect(response).to.deep.equal(testMockWithId)
     })
   
   })
 
-});
+  describe("Remoção de um documento pelo ID", async () => {
+    it("Caso de sucesso", async () => {
+      const updateStub = sinon.stub(Model, 'findByIdAndRemove').resolves(testMockWithId)
+  
+      const checkIdStub = sinon.stub(MongoModel, 'checkId').returns(true)
+  
+      const response = await mongoModel.delete(testMockId)
+  
+      expect(checkIdStub.calledWith(testMockId)).to.be.true
+  
+      expect(updateStub.calledWith(testMockId)).to.be.true
+      expect(response).to.deep.equal(testMockWithId)
+    })
+
+  })
+})
+
