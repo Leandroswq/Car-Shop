@@ -8,4 +8,8 @@ export function checkZodSchema(data: unknown, schema: Schema<unknown>): true {
   return true;
 }
 
-export default null;
+export function checkObjectIsEmpty<T>(obj : T): true {
+  if (Object.keys(obj as unknown as object).length === 0) throw new Error('BodyEmpty');
+
+  return true;
+}
