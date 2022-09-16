@@ -19,6 +19,7 @@ describe('Crud Controller', () => {
     
     res.status = (_status) => res
     res.json = (jsonMessage) => jsonMessage 
+    res.sendStatus = (_status) => res
   });
 
   afterEach(()=>{
@@ -92,6 +93,22 @@ describe('Crud Controller', () => {
       expect(statusSpy.calledWith(200)).to.be.true
       expect(jsonSpy.calledWith(testMockWithId)).to.be.true
       expect(updateOneStub.calledWith(req.params.id)).to.be.true
+    })
+  })
+
+  describe('Deleta um carro pelo id', () => {
+    it('Caso de Sucesso', async  () => {
+      req.params.id = '5'
+
+      const statusSpy = sinon.spy(res, 'sendStatus')
+
+      const deleteStub = sinon.stub(crudService, 'delete')
+      .resolves(undefined)
+      
+      await crudController.delete(req, res)
+
+      expect(statusSpy.calledWith(204)).to.be.true
+      expect(deleteStub.calledWith(req.params.id)).to.be.true
     })
   })
 
