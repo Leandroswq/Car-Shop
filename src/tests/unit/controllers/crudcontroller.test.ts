@@ -55,4 +55,23 @@ describe('Crud Controller', () => {
     })
   })
 
+  describe('Busca um carro no DB pelo id', () => {
+    it('Caso de Sucesso', async  () => {
+      req.params.id = '5'
+
+      const statusSpy = sinon.spy(res, 'status')
+      const jsonSpy = sinon.spy(res, 'json')
+
+      const readOneStub = sinon.stub(crudService, 'readOne')
+      .resolves(testMockWithId)
+      
+      await crudController.readOne(req, res)
+
+      expect(statusSpy.calledWith(200)).to.be.true
+      expect(jsonSpy.calledWith(testMockWithId)).to.be.true
+      expect(readOneStub.calledWith(req.params.id)).to.be.true
+    })
+  })
+
+
 });
