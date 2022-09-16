@@ -4,7 +4,6 @@ import TestCrudService from './testeCrudService';
 import MongoTesteModel from '../models/mongoTesteModel';
 import { testMock, testMockId, testMockWithId } from '../../mocks/mongoTestModelMocks';
 import CrudService from '../../../services/crudService';
-import { checkZodSchema } from '../../../helpers/zod';
 const { expect } = chai;
 
 describe('CrudService', () => {
