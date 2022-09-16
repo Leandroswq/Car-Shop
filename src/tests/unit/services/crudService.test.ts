@@ -61,11 +61,15 @@ describe('CrudService', () => {
     it("Caso de sucesso", async () => {
       const findStub = sinon.stub(mongoTesteModel, 'readOne').resolves(testMockWithId)
 
+      const existMock = sinon.stub(CrudService, 'objectExist').returns(true)
+
       const response = await crudService.readOne(testMockId)
 
-      expect(findStub.calledWith()).to.be.true
+      expect(findStub.calledWith(testMockId)).to.be.true
+      expect(existMock.calledWith(testMockWithId)).to.be.true
       expect(response).to.deep.equal(testMockWithId)
     })
   })
+
 })
 
