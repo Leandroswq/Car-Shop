@@ -1,18 +1,14 @@
-import { Request, Response } from 'express';
-import { ICar } from '../interfaces/ICar';
-import { ICarController } from '../interfaces/controllers/ICarController';
-import { IServiceCreate } from '../interfaces/IService';
+import { ICar, ICarUpdate } from '../interfaces/ICar';
+import CrudController from './crudController';
+import CrudService from '../services/crudService';
 
-export default class CarController implements ICarController {
-  protected _service: IServiceCreate<ICar>;
+export default class CarController extends CrudController<ICar, ICarUpdate> {
+  // Variável abaixo é necessária para evitar um falso positivo do lint
+  private linter: number;
 
-  constructor(service: IServiceCreate<ICar>) {
-    this._service = service;
-  }
-
-  async create(req: Request, res: Response) {
-    const { body } = req;
-    const response = await this._service.create(body);
-    return res.status(201).json(response);
+  constructor(service: CrudService<ICar, ICarUpdate>) {
+    super(service);
+    // A atribuição abaixo é necessária para evitar um falso positivo do lint
+    this.linter = 0;
   }
 }
