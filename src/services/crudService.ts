@@ -1,6 +1,6 @@
 import { Schema } from 'zod';
 import { ErrorTypes } from '../erros/catalog';
-import { checkZodSchema } from '../helpers/zod';
+import { checkObjectIsEmpty, checkZodSchema } from '../helpers/validation';
 import { IServiceCrud } from '../interfaces/IService';
 import MongoModel from '../models/mongoModel';
 
@@ -45,6 +45,8 @@ export default abstract class CrudService<T, U> implements IServiceCrud<T> {
   }
 
   async update(_id: string, obj: U | T): Promise<T> {
+    checkObjectIsEmpty(obj);
+
     const response = await this._model.update(_id, obj as T);
 
     CrudService.objectExist(response);
