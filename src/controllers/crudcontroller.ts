@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { ICRudController } from '../interfaces/ICrudeController';
-import { IServiceCrud } from '../interfaces/IService';
+import CrudService from '../services/crudService';
 
-export default abstract class CrudController<T> implements ICRudController<T> {
-  protected _service: IServiceCrud<T>;
+export default abstract class CrudController<T, U> implements ICRudController<T> {
+  protected _service: CrudService<T, U>;
 
-  constructor(service:IServiceCrud<T>) {
+  constructor(service:CrudService<T, U>) {
     this._service = service;
   }
   async create(req: Request, res: Response): Promise<Response<T>> {
