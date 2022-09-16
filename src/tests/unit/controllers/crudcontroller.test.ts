@@ -37,6 +37,7 @@ describe('Crud Controller', () => {
 
       expect(statusSpy.calledWith(201)).to.be.true
       expect(jsonSpy.calledWith(testMockWithId)).to.be.true
+      expect(createStub.called).to.be.true
     })
   })
 
