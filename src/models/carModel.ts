@@ -10,6 +10,8 @@ const carMongooseSchema = new Schema<ICar>({
   model: String,
   seatsQty: Number,
   year: Number,
+}, {
+  versionKey: false,
 });
 
 export default class CarModel extends MongoModel<ICar> {
