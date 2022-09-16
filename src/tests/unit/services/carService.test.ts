@@ -2,6 +2,7 @@ import * as sinon from 'sinon';
 import chai from 'chai';
 import CarService from '../../../services/carService';
 import CarModel from '../../../models/carModel';
+import CrudService from '../../../services/crudService';
 const { expect } = chai;
 
 describe('Car Service', () => {
@@ -12,7 +13,7 @@ describe('Car Service', () => {
   })
 
   it("Testa se Car Service é uma instancia de CrudService", () => {
-    expect(carService).instanceOf(CarService)
+    expect(carService).instanceOf(CrudService)
   })
 
 });
