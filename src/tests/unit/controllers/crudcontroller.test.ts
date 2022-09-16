@@ -3,7 +3,7 @@ import chai from 'chai';
 import { Request, Response } from 'express';
 import TestCrudService from '../services/testeCrudService';
 import TesteCrudController from './testeCrudController';
-import { testMockWithId } from '../../mocks/mongoTestModelMocks';
+import { testMock, testMockWithId } from '../../mocks/mongoTestModelMocks';
 const { expect } = chai;
 
 describe('Crud Controller', () => {
@@ -76,5 +76,23 @@ describe('Crud Controller', () => {
     })
   })
 
+  describe('Atualiza um carro pelo id', () => {
+    it('Caso de Sucesso', async  () => {
+      req.params.id = '5'
+      req.body = testMock
+
+      const statusSpy = sinon.spy(res, 'status')
+      const jsonSpy = sinon.spy(res, 'json')
+
+      const updateOneStub = sinon.stub(crudService, 'update')
+      .resolves(testMockWithId)
+      
+      await crudController.update(req, res)
+
+      expect(statusSpy.calledWith(200)).to.be.true
+      expect(jsonSpy.calledWith(testMockWithId)).to.be.true
+      expect(updateOneStub.calledWith(req.params.id)).to.be.true
+    })
+  })
 
 });
