@@ -20,8 +20,12 @@ export default abstract class CrudController<T> implements ICRudController<T> {
     return res.status(200).json(response);
   }
 
-  readOne(req: Request, res: Response): Promise<Response<T>> {
-    throw new Error('Method not implemented.');
+  async readOne(req: Request, res: Response): Promise<Response<T>> {
+    const { id } = req.params;
+
+    const response = await this._service.readOne(id);
+
+    return res.status(200).json(response); 
   }
 
   update(req: Request, res: Response): Promise<Response<T>> {
