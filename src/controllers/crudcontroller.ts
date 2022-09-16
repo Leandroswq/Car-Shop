@@ -37,7 +37,11 @@ export default abstract class CrudController<T> implements ICRudController<T> {
     return res.status(200).json(response); 
   }
 
-  delete(req: Request, res: Response): Promise<Response> {
-    throw new Error('Method not implemented.');
+  async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    await this._service.delete(id);
+
+    return res.sendStatus(204);
   }
 }
