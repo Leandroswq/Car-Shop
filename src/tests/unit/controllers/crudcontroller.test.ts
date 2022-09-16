@@ -46,13 +46,15 @@ describe('Crud Controller', () => {
       const statusSpy = sinon.spy(res, 'status')
       const jsonSpy = sinon.spy(res, 'json')
 
-      const createStub = sinon.stub(crudService, 'read')
+      const readStub = sinon.stub(crudService, 'read')
       .resolves([testMockWithId])
 
       await crudController.read(req, res)
 
       expect(statusSpy.calledWith(200)).to.be.true
       expect(jsonSpy.calledWith([testMockWithId])).to.be.true
+      expect(readStub.called).to.be.true
+
     })
   })
 
