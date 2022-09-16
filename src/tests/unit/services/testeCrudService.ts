@@ -12,7 +12,7 @@ export const nameUpdateSchema = z.object({
 
 
 export default class TestCrudService extends CrudService<{name: string}, {name?:string}>{
-  constructor(model: MongoTesteModel){
+  constructor(model: MongoTesteModel = new MongoTesteModel()){
     super(model, nameSchema, nameUpdateSchema)
   }
 }
