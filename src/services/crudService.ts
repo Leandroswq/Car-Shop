@@ -19,33 +19,41 @@ export default abstract class CrudService<T, U> implements IServiceCrud<T> {
     this._updateZodSchema = updateZodSchema;
   }
 
+  static objectExist<T>(obj: T): true {
+    if (!obj) throw new Error(ErrorTypes.ObjectNotFound);
+
+    return true;
+  }
+
   async create(obj: T): Promise<T> {
     checkZodSchema(obj, this._zodSchema);
     const response = await this._model.create(obj);
 
     return response;
   }
+
   async read(): Promise<T[]> {
     const response = await this._model.read();
 
     return response;
   }
+
   async readOne(_id: string): Promise<T> {
     const response = await this._model.readOne(_id);
-    if (!response) throw new Error(ErrorTypes.ObjectNotFound);
-
-    return response;
+    CrudService.objectExist(response);
+    return response as T;
   }
+
   async update(_id: string, obj: U | T): Promise<T> {
     const response = await this._model.update(_id, obj as T);
 
-    if (!response) throw new Error(ErrorTypes.ObjectNotFound);
-
-    return response;
+    CrudService.objectExist(response);
+    return response as T;
   }
+  
   async delete(_id: string): Promise<void> {
     const response = await this._model.delete(_id);
 
-    if (!response) throw new Error(ErrorTypes.ObjectNotFound);
+    CrudService.objectExist(response); 
   }
 }
