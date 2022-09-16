@@ -46,5 +46,17 @@ describe('CrudService', () => {
   })
 
 
+  describe("Busca de todos os documentos", async () => {
+    it("Caso de sucesso", async () => {
+      const findStub = sinon.stub(mongoTesteModel, 'read').resolves([testMockWithId])
+
+      const response = await crudService.read()
+
+      expect(findStub.calledWith()).to.be.true
+      expect(response).to.deep.equal([testMockWithId])
+    })
+  })
+
+
 })
 
