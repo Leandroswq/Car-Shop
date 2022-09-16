@@ -1,0 +1,37 @@
+import * as sinon from 'sinon';
+import chai from 'chai';
+import TestCrudService from './testeCrudService';
+import MongoTesteModel from '../models/mongoTesteModel';
+import { testMock, testMockId, testMockWithId } from '../../mocks/mongoTestModelMocks';
+import CrudService from '../../../services/crudService';
+import { checkZodSchema } from '../../../helpers/zod';
+const { expect } = chai;
+
+describe('CrudService', () => {
+  const mongoTesteModel = new MongoTesteModel()
+  const crudService = new TestCrudService(mongoTesteModel)
+
+  afterEach(() => {
+    sinon.restore();
+  })
+
+  describe("Lança um erro ObjectNotFound, caso o objeto não exista no DB", () => {
+    it("Caso o Objeto exista no DB retorne true", () => {
+      const response = CrudService.objectExist(testMock)
+
+      expect(response).to.true
+    })
+
+    it("Caso o id seja invalido lança um erro do tipo 'InvalidMongoId'", async () => {
+      try {
+        const response = CrudService.objectExist(null)
+        expect.fail("O erro não foi lançado corretamente")
+      } catch ({message}) {
+
+        expect(message).to.equal('ObjectNotFound')
+      }
+    })
+  })
+
+})
+
