@@ -33,5 +33,18 @@ describe('CrudService', () => {
     })
   })
 
+  describe("Criação de um documento", () => {
+    it("Caso de sucesso", async () => {
+      const createStub = sinon.stub(mongoTesteModel, 'create')
+      .resolves(testMockWithId)
+
+      const response = await crudService.create(testMock)
+
+      expect(createStub.calledWith(testMock)).to.be.true
+      expect(response).to.equal(testMockWithId)
+    })
+  })
+
+
 })
 
