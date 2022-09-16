@@ -85,5 +85,19 @@ describe('CrudService', () => {
     })
   })
 
+  describe("Remove um documento pelo id", async () => {
+    it("Caso de sucesso", async () => {
+      const findStub = sinon.stub(mongoTesteModel, 'delete').resolves(testMockWithId)
+
+      const existMock = sinon.stub(CrudService, 'objectExist').returns(true)
+
+      const response = await crudService.delete(testMockId)
+
+      expect(findStub.calledWith(testMockId)).to.be.true
+      expect(existMock.calledWith(testMockWithId)).to.be.true
+      expect(response).to.be.undefined
+    })
+  })
+
 })
 
