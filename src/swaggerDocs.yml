@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  title: MongoDB Car Shop
+  description: >-
+    Esta é uma API de uma loja de veículos. Nela é possível cadastrar,
+    atualizar, excluir e listar veículos.
+  contact:
+    email: leandrobonfim15@hotmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+paths: {}
