@@ -8,7 +8,7 @@ export const validMotorcycle = {
 };
 
 export const validMotorcycleWithId = {
-  __id: '6329dde4bcfcd1d7a90d3b4d',
+  _id: '6329dde4bcfcd1d7a90d3b4d',
   model: 'Honda CG Titan 125',
   year: 1963,
   color: 'red',
