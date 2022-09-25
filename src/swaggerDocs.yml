@@ -1,12 +1,435 @@
 openapi: 3.0.0
 info:
+  version: 1.0.0
   title: MongoDB Car Shop
   description: >-
     Esta é uma API de uma loja de veículos. Nela é possível cadastrar,
     atualizar, excluir e listar veículos.
   contact:
     email: leandrobonfim15@hotmail.com
-  version: 1.0.0
+
 servers:
   - url: http://localhost:3001
-paths: {}
+
+tags:
+  - name: cars
+  - name: motorcycles
+
+paths:
+# Cars
+  /cars:
+    get:
+      summary: Listar todos o carros 
+      tags:
+        - cars
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                 $ref: '#/components/schemas/car'
+
+    post:
+      summary: Adicionar um carro ao banco de dados
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/carWithoutId'
+
+      tags:
+        - cars
+      responses:
+        "201": 
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/car'
+
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/InvalidMongId'
+
+                    - $ref: '#/components/schemas/BodyEmpty'
+    
+  '/cars/{id}':
+    get: 
+      summary: Listar um carro pelo id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      tags:
+        - cars
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/car'
+        
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMongId'
+
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectNotFound'
+    
+    put:
+      summary: Atualizar os dados de um carro
+      description: >-
+        Enviar um objeto com as chaves e os valores que deseja enviar.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      tags: 
+        - cars
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/carWithoutId'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/car'
+        
+
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/InvalidMongId'
+
+                    - $ref: '#/components/schemas/BodyEmpty'
+
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectNotFound'
+    
+    delete:
+      summary: Deletar um carro pelo id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      tags:
+        - cars
+      responses:
+        "204": 
+          description: "Deleted"
+
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMongId'
+
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectNotFound'
+  
+# Motorcycle
+  /motorcycles:
+    get:
+      summary: Listar todas as motos   
+      tags:
+        - motorcycles
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                 $ref: '#/components/schemas/motorcycle'
+
+    post:
+      summary: Adicionar uma moto do banco de dados
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/motorcycleWithoutId'
+      tags:
+        - motorcycles
+      responses:
+        "201": 
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/motorcycle'
+
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/InvalidMongId'
+
+                    - $ref: '#/components/schemas/BodyEmpty'
+
+  '/motorcycles/{id}':
+    get: 
+      summary: Listar uma moto pelo id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      tags:
+        - motorcycles
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/motorcycle'
+        
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMongId'
+
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectNotFound'
+    
+    put:
+      summary: Atualizar os dados de uma moto
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      description: >-
+        Enviar um objeto com as chaves e os valores que deseja enviar.
+      tags: 
+        - motorcycles
+      requestBody:
+        content:
+          application/json: 
+            schema:
+              $ref: '#/components/schemas/motorcycleWithoutId'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/motorcycle'
+        
+
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/InvalidMongId'
+
+                    - $ref: '#/components/schemas/BodyEmpty'
+
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectNotFound'
+    
+    delete:
+      summary: Deletar uma moto pelo id
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      tags:
+        - motorcycles
+      responses:
+        "204": 
+          description: "Deleted"
+
+        "400":
+          description: "Bad Request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMongId'
+
+        "404":
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectNotFound'
+components:
+  schemas:
+    car:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "6329dde4bcfcd1d7a90d3b4d"
+        model:
+          type: string
+          example: "Uno da Escada"
+        year:
+          type: number
+          example: 1963
+        color:
+          type: string
+          example: "red"
+        buyValue:
+          type: number
+          example: 4000
+        seatsQty:
+          type: number
+          example: 2
+        doorsQty:
+          type: number
+          example: 2
+
+    carWithoutId:
+      properties:
+        model:
+          type: string
+          example: "Uno da Escada"
+        year:
+          type: number
+          example: 1963
+        color:
+          type: string
+          example: "red"
+        buyValue:
+          type: number
+          example: 4000
+        seatsQty:
+          type: number
+          example: 2
+        doorsQty:
+          type: number
+          example: 2
+    
+    motorcycle:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "6329dde4bcfcd1d7a90d3b4d"
+        model:
+          type: string
+          example: 'Honda CG Titan 125'
+        year:
+          type: number
+          example: 1963
+        color:
+          type: string
+          example: "red"
+        buyValue:
+          type: number
+          example: 3500
+        category:
+          type: number
+          example: 'Street'
+        engineCapacity:
+          type: number
+          example: 125
+
+    motorcycleWithoutId:
+      type: object
+      properties:
+        model:
+          type: string
+          example: 'Honda CG Titan 125'
+        year:
+          type: number
+          example: 1963
+        color:
+          type: string
+          example: "red"
+        buyValue:
+          type: number
+          example: 3500
+        category:
+          type: number
+          example: 'Street'
+        engineCapacity:
+          type: number
+          example: 125
+
+    InvalidMongId:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Id must have 24 hexadecimal characters'
+    
+    BodyEmpty:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'request body cannot be empty'
+
+    ObjectNotFound:
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Object not found'
